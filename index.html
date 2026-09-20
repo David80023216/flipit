@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b0f1a">
+<title>FLIP IT — Buy Low. Sell High.</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ============ PROFILE / LOGIN ============ -->
+  <section id="screen-profile" class="screen active">
+    <div class="profile-wrap">
+      <div class="logo">🔄<span>FLIP&nbsp;IT</span></div>
+      <p class="tagline">Buy low. Sell high. Become a mogul.</p>
+      <div class="card">
+        <h3>Who's flipping today?</h3>
+        <div id="profile-list"></div>
+        <div class="row gap">
+          <input id="new-profile-name" maxlength="20" placeholder="Your dealer name" autocomplete="off">
+          <button id="btn-create-profile" class="btn primary">Start</button>
+        </div>
+        <p class="muted tiny">Progress saves on this device automatically.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MAIN APP ============ -->
+  <div id="main-app" class="hidden">
+    <header id="topbar">
+      <div class="tb-left">
+        <div id="tb-avatar" class="avatar">🙂</div>
+        <div>
+          <div id="tb-name" class="tb-name">Player</div>
+          <div id="tb-level" class="tb-level">Garage Flipper</div>
+        </div>
+      </div>
+      <div class="tb-right">
+        <div class="tb-cash-wrap">
+          <div id="tb-cash" class="tb-cash">$1,000</div>
+          <div id="tb-coins" class="tb-coins">🪙 0</div>
+        </div>
+        <button id="btn-admin" class="icon-btn" title="Admin">⚙️</button>
+      </div>
+    </header>
+
+    <main id="screens">
+      <!-- HOME -->
+      <section id="screen-home" class="screen">
+        <div id="daily-login-card"></div>
+        <div id="weekly-banner"></div>
+        <div class="stat-grid" id="home-stats"></div>
+        <div class="card">
+          <h3>🎯 Today's Challenge</h3>
+          <div id="home-challenge"></div>
+          <button class="btn primary block" data-nav="deal">Find a Deal →</button>
+        </div>
+        <div class="card" id="home-sidehustle" style="display:none">
+          <h3>🛠️ Down bad?</h3>
+          <p class="muted">Do a side hustle for quick cash (once a day).</p>
+          <button id="btn-sidehustle" class="btn block">Earn $150</button>
+        </div>
+        <div class="card">
+          <h3>🏆 Achievements <span id="ach-count" class="muted"></span></h3>
+          <div id="home-achievements" class="ach-list"></div>
+        </div>
+      </section>
+
+      <!-- DEAL / MARKET -->
+      <section id="screen-deal" class="screen">
+        <div id="deal-area"></div>
+      </section>
+
+      <!-- INVENTORY -->
+      <section id="screen-inventory" class="screen">
+        <h2 class="screen-title">📦 Inventory <span id="inv-count" class="muted"></span></h2>
+        <div id="inventory-list"></div>
+      </section>
+
+      <!-- CHALLENGES -->
+      <section id="screen-challenges" class="screen">
+        <h2 class="screen-title">🎯 Challenges</h2>
+        <div id="challenge-detail"></div>
+        <h3 class="subhead">Login rewards</h3>
+        <div id="login-week" class="login-week"></div>
+      </section>
+
+      <!-- LEADERBOARD -->
+      <section id="screen-leaderboard" class="screen">
+        <h2 class="screen-title">🏆 Records</h2>
+        <div id="leaderboard-list"></div>
+        <p class="muted tiny center">Personal records on this device.<br>Global leaderboards unlock with online accounts.</p>
+      </section>
+
+      <!-- STORE -->
+      <section id="screen-store" class="screen">
+        <h2 class="screen-title">🛍️ Store <span id="store-coins" class="coins-pill"></span></h2>
+        <p class="muted tiny center">Cosmetics & convenience only — never required to play. No loot boxes, ever.</p>
+        <div id="store-list"></div>
+      </section>
+
+      <!-- ADMIN -->
+      <section id="screen-admin" class="screen">
+        <h2 class="screen-title">⚙️ Admin</h2>
+        <div id="admin-lock">
+          <div class="card">
+            <h3>Restricted area</h3>
+            <div class="row gap">
+              <input id="admin-pass" type="password" placeholder="Admin password" autocomplete="off">
+              <button id="btn-admin-unlock" class="btn primary">Unlock</button>
+            </div>
+            <p class="muted tiny">Default password: <b>flipit-admin</b> (change it in js/engine.js if you fork this).</p>
+          </div>
+        </div>
+        <div id="admin-panel" style="display:none">
+          <div class="tab-row" id="admin-tabs">
+            <button data-atab="items" class="tab active">Items</button>
+            <button data-atab="events" class="tab">Events</button>
+            <button data-atab="challenge" class="tab">Challenge</button>
+            <button data-atab="data" class="tab">Data</button>
+          </div>
+          <div id="admin-content"></div>
+        </div>
+      </section>
+    </main>
+
+    <nav id="tabbar">
+      <button data-nav="home" class="tab active"><span>🏠</span><label>Home</label></button>
+      <button data-nav="deal" class="tab"><span>🤝</span><label>Deal</label></button>
+      <button data-nav="inventory" class="tab"><span>📦</span><label>Items</label><b id="nav-inv-badge" class="badge" style="display:none"></b></button>
+      <button data-nav="challenges" class="tab"><span>🎯</span><label>Goals</label></button>
+      <button data-nav="leaderboard" class="tab"><span>🏆</span><label>Ranks</label></button>
+      <button data-nav="store" class="tab"><span>🛍️</span><label>Store</label></button>
+    </nav>
+  </div>
+
+  <!-- toast + modal -->
+  <div id="toast" class="toast"></div>
+  <div id="modal" class="modal hidden"><div class="modal-card" id="modal-card"></div></div>
+</div>
+
+<script src="js/items.js"></script>
+<script src="js/config.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", () => UI.boot());
+  window.addEventListener("beforeunload", () => { try { FlipIt.endSession(); } catch(e){} });
+</script>
+</body>
+</html>
